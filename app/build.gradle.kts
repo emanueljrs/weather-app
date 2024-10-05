@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.navigation.safeargs.plugin)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -33,6 +35,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -42,6 +47,29 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+    // Navigation Component
+    implementation(libs.navigation.fragment.ktx)
+
+    // ViewModel e LiveData
+    implementation(libs.viewmodel)
+    implementation(libs.livedata)
+
+    // Hilt
+    implementation(libs.hilt)
+    ksp(libs.hilt.android.compiler)
+
+    // Coroutine
+    implementation(libs.coroutine)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+
+    // Okhttp
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

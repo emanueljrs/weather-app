@@ -2,4 +2,7 @@
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.android) apply false
+    // Plugin do Hilt só é necessário aqui e não mais build.gradle do módulo
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.ksp) apply false
 }
