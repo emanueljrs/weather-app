@@ -1,15 +1,16 @@
-package com.emanuel.weatherapp.data.remote.repository
+package com.emanuel.weatherapp.data.repository
 
 import com.emanuel.weatherapp.data.remote.datasource.RemoteDataSource
 import com.emanuel.weatherapp.domain.model.WeatherInfo
+import com.emanuel.weatherapp.domain.repository.WeatherRepository
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
 import javax.inject.Inject
 
-class WeatherRemoteRepository @Inject constructor(
+class WeatherRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource
-) : RemoteRepository {
+) : WeatherRepository {
 
     override suspend fun getWeather(lat: Float, lng: Float): WeatherInfo {
 

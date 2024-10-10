@@ -1,8 +1,8 @@
-package com.emanuel.weatherapp.data.remote.repository
+package com.emanuel.weatherapp.domain.repository
 
 import com.emanuel.weatherapp.domain.model.WeatherInfo
 
-interface RemoteRepository {
+interface WeatherRepository {
 
     suspend fun getWeather(lat: Float, lng: Float): WeatherInfo
 }
