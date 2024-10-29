@@ -1,5 +1,6 @@
 package com.emanuel.weatherapp.data.remote.di
 
+import com.emanuel.weatherapp.BuildConfig
 import com.emanuel.weatherapp.data.remote.api.WeatherAPI
 import dagger.Module
 import dagger.Provides
@@ -16,14 +17,17 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private val BASE_URL = "https://api.openweathermap.org/data/2.5/"
+    private const val TIMEOUT = 15L
 
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
             setLevel(
-//                if (BuildConfig.De)
-                HttpLoggingInterceptor.Level.BODY
+                if (BuildConfig.DEBUG) {
+                    HttpLoggingInterceptor.Level.BODY
+                } else {
+                    HttpLoggingInterceptor.Level.NONE
+                }
             )
         }
     }
@@ -34,8 +38,8 @@ object NetworkModule {
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
-            .readTimeout(15, TimeUnit.SECONDS)
-            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
             .build()
     }
 
@@ -51,10 +55,12 @@ object NetworkModule {
         gsonConverterFactory: GsonConverterFactory
     ): WeatherAPI {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()
-            .create(WeatherAPI::class.java) // Aqui o
+            // Aqui o retrofit cria a implementação para a interface
+            // definida com os endpoints que queremos acessar
+            .create(WeatherAPI::class.java)
     }
 }

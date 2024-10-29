@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,6 +8,13 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
+
+// Lê os dados do arquivo
+val apiKeyPropertiesFile = rootProject.file("apikey.properties")
+// Cria um objeto Properties do Kotlin
+val apiKeyProperties = Properties()
+// Carrega os dados do arquivo para o objeto
+apiKeyProperties.load(FileInputStream(apiKeyPropertiesFile))
 
 android {
     namespace = "com.emanuel.weatherapp"
@@ -18,6 +28,13 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Os valores salvos dentro de apikeyProperties são armazenados com CHAVE-VALOR
+        // criamos as buildConfigs definindo: o tipo, o nome que queremos e passando
+        // o nome da key salvo lá no apikey.properties.
+        // Obs: Tem que ser exatamente o mesmo nome se não
+        buildConfigField("String", "API_KEY", apiKeyProperties["API_KEY"].toString())
+        buildConfigField("String", "BASE_URL", "\"https://api.openweathermap.org/data/2.5/\"")
     }
 
     buildTypes {
@@ -38,6 +55,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
