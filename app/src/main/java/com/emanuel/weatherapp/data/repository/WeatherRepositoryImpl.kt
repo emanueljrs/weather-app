@@ -1,6 +1,7 @@
 package com.emanuel.weatherapp.data.repository
 
 import com.emanuel.weatherapp.data.remote.datasource.RemoteDataSource
+import com.emanuel.weatherapp.domain.model.CityInfo
 import com.emanuel.weatherapp.domain.model.WeatherInfo
 import com.emanuel.weatherapp.domain.repository.WeatherRepository
 import java.time.LocalDate
@@ -25,6 +26,17 @@ class WeatherRepositoryImpl @Inject constructor(
             temperature = response.main.temp.toInt(),
             climate = response.weather[0].main,
             humidity = response.main.humidity
+        )
+    }
+
+    override suspend fun getCityInfo(cityName: String): CityInfo {
+        val response = remoteDataSource.getLatLonWithCityName(cityName)
+//        val city = response
+
+        return CityInfo(
+            name = response.name,
+            lat = response.lat,
+            lon = response.lon
         )
     }
 }

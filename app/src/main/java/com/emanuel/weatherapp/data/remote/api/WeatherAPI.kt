@@ -11,6 +11,7 @@ interface WeatherAPI {
     suspend fun getCurrentWeather(
         @Query("lat") lat: Float,
         @Query("lon") lng: Float,
-        @Query("appid") apiKey: String = BuildConfig.API_KEY
+        @Query("appid") apiKey: String = BuildConfig.API_KEY,
+        @Query("units") units: String = "metric"
     ): WeatherResponse
 }

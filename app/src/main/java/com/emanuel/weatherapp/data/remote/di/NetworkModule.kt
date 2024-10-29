@@ -1,6 +1,7 @@
 package com.emanuel.weatherapp.data.remote.di
 
 import com.emanuel.weatherapp.BuildConfig
+import com.emanuel.weatherapp.data.remote.api.GeocodingApi
 import com.emanuel.weatherapp.data.remote.api.WeatherAPI
 import dagger.Module
 import dagger.Provides
@@ -50,7 +51,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(
+    fun provideWeatherApiInstance(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): WeatherAPI {
@@ -62,5 +63,19 @@ object NetworkModule {
             // Aqui o retrofit cria a implementação para a interface
             // definida com os endpoints que queremos acessar
             .create(WeatherAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGeocodingApiInstance(
+        okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
+    ): GeocodingApi {
+        return Retrofit.Builder()
+            .baseUrl("https://api.openweathermap.org/geo/1.0/")
+            .client(okHttpClient)
+            .addConverterFactory(gsonConverterFactory)
+            .build()
+            .create(GeocodingApi::class.java)
     }
 }
