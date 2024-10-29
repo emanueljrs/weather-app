@@ -1,5 +1,7 @@
+package com.emanuel.weatherapp
+
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class MyApplication : Application()
+class WeatherApplication : Application()
