@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.emanuel.weatherapp.domain.usecases.GetCurrentWeatherUseCase
+import com.emanuel.weatherapp.domain.model.CityInfo
 import com.emanuel.weatherapp.domain.usecases.GetLatLonWithCityNameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,24 +13,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
     private val getLatLonWithCityNameUseCase: GetLatLonWithCityNameUseCase
 ) : ViewModel() {
 
     private val _cityName = MutableLiveData("")
     val cityName: LiveData<String> = _cityName
 
-    fun getInfoWeather(city: String) {
+    private val _cityInfo = MutableLiveData<CityInfo>()
+    val cityInfo: LiveData<CityInfo> = _cityInfo
+
+    fun getLatLonCity(city: String) {
         viewModelScope.launch {
             _cityName.value = city
 
-            val cityInfo = getLatLonWithCityNameUseCase(city)
-            Log.d("HomeViewModel", "${cityInfo.name}, ${cityInfo.lat}, ${cityInfo.lon}")
-            val result = getCurrentWeatherUseCase(
-                lat = cityInfo.lat,
-                lng = cityInfo.lon
-            )
-            Log.d("HomeViewModel", "${result.cityName}, ${result.temperature}")
+            _cityInfo.postValue(getLatLonWithCityNameUseCase(city))
+            Log.d("HomeViewModel", "${_cityInfo.value?.name}, ${_cityInfo.value?.lat}, ${_cityInfo.value?.lon}")
         }
     }
 }
