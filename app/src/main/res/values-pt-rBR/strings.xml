@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Weather App</string>
+    <!-- HomeFragment -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_main_fragment">Qual cidade deseja ver o clima?</string>
+    <string name="city_name_hint">Nome da cidade</string>
+    <string name="city_name_help_text">*Este campo é obrigatório</string>
+    <string name="search_button">Buscar</string>
+</resources>
