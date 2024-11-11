@@ -32,10 +32,14 @@ class WeatherRepositoryImpl @Inject constructor(
     override suspend fun getCityInfo(cityName: String): CityInfo {
         val response = remoteDataSource.getLatLonWithCityName(cityName)
 
-        return CityInfo(
-            name = response.name,
-            lat = response.lat,
-            lon = response.lon
-        )
+        return if (response.isNotEmpty()) {
+            CityInfo(
+                name = response.first().name,
+                lat = response.first().lat,
+                lon = response.first().lon
+            )
+        } else {
+            CityInfo()
+        }
     }
 }

@@ -15,7 +15,7 @@ class RetrofitRemoteDataSource @Inject constructor(
         return weatherAPI.getCurrentWeather(lat, lng)
     }
 
-    override suspend fun getLatLonWithCityName(cityName: String): GeocodingResponse {
-        return geocodingApi.getLatLonWithCityName(cityName).first()
+    override suspend fun getLatLonWithCityName(cityName: String): List<GeocodingResponse> {
+        return geocodingApi.getLatLonWithCityName(cityName)
     }
 }

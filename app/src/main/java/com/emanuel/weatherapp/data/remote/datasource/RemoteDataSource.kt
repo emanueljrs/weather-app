@@ -7,5 +7,5 @@ interface RemoteDataSource {
 
     suspend fun getCurrentWeather(lat: Float, lng: Float): WeatherResponse
 
-    suspend fun getLatLonWithCityName(cityName: String): GeocodingResponse
+    suspend fun getLatLonWithCityName(cityName: String): List<GeocodingResponse>
 }
