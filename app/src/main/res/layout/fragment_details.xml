@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".presentation.details.DetailsFragment">
+
+    <TextView
+        android:id="@+id/cityNameTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:layout_gravity="center"
+        tools:text="Barbalha" />
+
+    <TextView
+        android:id="@+id/dayOfWeekTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:text="Quinta-feira" />
+
+    <TextView
+        android:id="@+id/dayOfMonthTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:text="31/10/2024" />
+
+    <TextView
+        android:id="@+id/temperatureTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="70sp"
+        android:layout_gravity="center"
+        android:text="35°" />
+
+    <TextView
+        android:id="@+id/climateTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:text="Ceú limpo" />
+
+    <TextView
+        android:id="@+id/humidityTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:text="Humidade 7%" />
+
+</LinearLayout>
