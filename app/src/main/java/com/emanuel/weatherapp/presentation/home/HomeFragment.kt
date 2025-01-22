@@ -1,27 +1,28 @@
 package com.emanuel.weatherapp.presentation.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.emanuel.weatherapp.R
 import com.emanuel.weatherapp.databinding.FragmentHomeBinding
-import com.emanuel.weatherapp.domain.model.CityInfo
+import com.emanuel.weatherapp.domain.model.WeatherInfo
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
+    private val TAG: String = "HomeFragment"
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     private val homeViewModel by viewModels<HomeViewModel>()
-    private var cityInfoArgs = CityInfo()
+    private var weatherInfoArgs: WeatherInfo? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,16 +41,20 @@ class HomeFragment : Fragment() {
 
     private fun observers() {
         homeViewModel.apply {
-            cityInfo.observe(viewLifecycleOwner) { cityInfo ->
-                if (cityInfo.name.isNotBlank()) {
-                    cityInfoArgs = cityInfo
-                    goToDetailsScreen()
+            weatherInfo.observe(viewLifecycleOwner) { weatherInfo ->
+                if (weatherInfo != null) {
+                    weatherInfoArgs = weatherInfo
+                    binding.apply {
+                        detailsBtn.isEnabled = true
+                        currentCityNameTxt.text = weatherInfo.cityName
+                    }
                 }
             }
             cityInfoError.observe(viewLifecycleOwner) { message ->
                 showToast(message)
+                binding.cityNameTil.requestFocus()
             }
-            cityInfoErrorLoading.observe(viewLifecycleOwner) { isLoading ->
+            cityInfoLoading.observe(viewLifecycleOwner) { isLoading ->
                 isShowLoading(isLoading)
             }
         }
@@ -90,24 +95,38 @@ class HomeFragment : Fragment() {
                     cityNameTiet.requestFocus()
                 }
             }
+            detailsBtn.setOnClickListener {
+                if (weatherInfoArgs != null) {
+                    goToDetailsScreen()
+                }
+            }
         }
     }
 
     private fun goToDetailsScreen() {
-        cityInfoArgs.let {
-            val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(
-                it.name,
-                it.lat,
-                it.lon
-            )
-            findNavController().navigate(action)
-            homeViewModel.clearCityInfo()
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(weatherInfoArgs)
+        findNavController().navigate(action)
+        clearData()
+    }
+
+    private fun clearData() {
+        homeViewModel.clearCityInfos()
+        binding.apply {
+            detailsBtn.isEnabled = false
+            currentCityNameTxt.text = ""
         }
     }
 
     private fun isValidCityName(): Boolean =
         binding.cityNameTiet.text?.isNotBlank() ?: false
 
+    override fun onResume() {
+        super.onResume()
+        binding.apply {
+            detailsBtn.isEnabled = false
+            cityNameTil.requestFocus()
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
