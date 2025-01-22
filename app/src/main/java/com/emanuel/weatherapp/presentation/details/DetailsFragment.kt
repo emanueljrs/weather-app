@@ -30,9 +30,15 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            cityNameTxt.text = args.cityName
-            dayOfWeekTxt.text = args.lat.toString()
-            dayOfMonthTxt.text = args.lon.toString()
+            println("ARGS: ${args.weatherInfo?.cityName}")
+            args.weatherInfo?.let {
+                cityNameTxt.text = it.cityName
+                dayOfWeekTxt.text = it.dayOfWeek
+                dayOfMonthTxt.text = it.currentDate
+                temperatureTxt.text = "${it.temperature}ºc"
+                climateTxt.text = it.climate
+                humidityTxt.text = "${it.humidity}%"
+            }
         }
     }
 
