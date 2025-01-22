@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.navigation.safeargs.plugin)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 // Lê os dados do arquivo
@@ -60,6 +61,8 @@ android {
 }
 
 dependencies {
+    // Importar um module do projeto
+    // implementation(project(":name_module"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -76,6 +79,8 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt)
+//    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.fragment.ktx)
     ksp(libs.hilt.android.compiler)
 
     // Coroutine
