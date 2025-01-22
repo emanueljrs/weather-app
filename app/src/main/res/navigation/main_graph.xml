@@ -20,13 +20,8 @@
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" >
         <argument
-            android:name="cityName"
-            app:argType="string" />
-        <argument
-            android:name="lat"
-            app:argType="float" />
-        <argument
-            android:name="lon"
-            app:argType="float" />
+            android:name="weatherInfo"
+            app:argType="com.emanuel.weatherapp.domain.model.WeatherInfo"
+            app:nullable="true" />
     </fragment>
 </navigation>
