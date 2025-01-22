@@ -7,4 +7,5 @@
     <string name="city_name_hint">Nome da cidade</string>
     <string name="city_name_help_text">*Este campo é obrigatório</string>
     <string name="search_button">Buscar</string>
+    <string name="details_button">Ver detalhes do clima</string>
 </resources>
