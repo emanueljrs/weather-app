@@ -7,4 +7,6 @@
     <string name="city_name_help_text">*This field is required</string>
     <string name="search_button">Search</string>
     <string name="details_button">See Weather Details</string>
+    <string name="humidity_text">Humidity: %d%%</string>
+    <string name="temperature_text">%d°C</string>
 </resources>
