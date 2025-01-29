@@ -10,5 +10,6 @@ data class WeatherInfo(
     val currentDate: String = "",
     val temperature: Int = 0,
     val climate: String = "",
+    val icon: String = "",
     val humidity: Int = 0,
 ) : Parcelable

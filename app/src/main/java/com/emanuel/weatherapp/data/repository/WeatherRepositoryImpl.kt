@@ -5,6 +5,7 @@ import com.emanuel.weatherapp.domain.model.CityInfo
 import com.emanuel.weatherapp.domain.model.WeatherInfo
 import com.emanuel.weatherapp.domain.repository.WeatherRepository
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 import javax.inject.Inject
@@ -16,15 +17,17 @@ class WeatherRepositoryImpl @Inject constructor(
     override suspend fun getWeather(lat: Float, lng: Float): WeatherInfo {
 
         val response = remoteDataSource.getCurrentWeather(lat, lng)
+        val dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
 
         return WeatherInfo(
             cityName = response.name,
             dayOfWeek = LocalDate.now().dayOfWeek.getDisplayName(
                 TextStyle.FULL, Locale.getDefault()
             ),
-            currentDate = LocalDate.now().dayOfMonth.toString(),
+            currentDate = LocalDate.now().format(dateTimeFormatter),
             temperature = response.main.temp.toInt(),
             climate = response.weather[0].main,
+            icon = response.weather[0].icon,
             humidity = response.main.humidity
         )
     }
