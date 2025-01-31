@@ -3,11 +3,13 @@ package com.emanuel.weatherapp.presentation.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.emanuel.weatherapp.domain.model.CityInfo
 import com.emanuel.weatherapp.domain.model.WeatherInfo
 import com.emanuel.weatherapp.domain.usecases.GetCurrentWeatherUseCase
 import com.emanuel.weatherapp.domain.usecases.GetLatLonWithCityNameUseCase
+import com.emanuel.weatherapp.network.ConnectivityManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -17,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getLatLonWithCityNameUseCase: GetLatLonWithCityNameUseCase,
-    private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase
+    private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
+    private val connectivityManager: ConnectivityManager
 ) : ViewModel() {
 
     private val _cityName = MutableLiveData("")
@@ -33,6 +36,8 @@ class HomeViewModel @Inject constructor(
 
     private val _cityInfoLoading = MutableLiveData(false)
     val cityInfoLoading: LiveData<Boolean> = _cityInfoLoading
+
+    val isConnected: LiveData<Boolean?> = connectivityManager.isConnected.asLiveData()
 
     fun getLatLonCity(city: String) {
         viewModelScope.launch(Dispatchers.IO) {

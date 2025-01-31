@@ -40,6 +40,19 @@ class HomeFragment : Fragment() {
     }
 
     private fun observers() {
+        homeViewModel.isConnected.observe(viewLifecycleOwner) { isConnected ->
+            binding.apply {
+                isConnected?.let {
+                    if (!isConnected) {
+                        showToast("No internet connection")
+                        cityNameTil.isEnabled = false
+                    } else {
+                        cityNameTil.isEnabled = true
+                        showToast("Connected")
+                    }
+                }
+            }
+        }
         homeViewModel.apply {
             weatherInfo.observe(viewLifecycleOwner) { weatherInfo ->
                 if (weatherInfo != null) {
