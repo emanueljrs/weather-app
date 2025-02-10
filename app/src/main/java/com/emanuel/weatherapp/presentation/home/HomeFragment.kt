@@ -44,21 +44,21 @@ class HomeFragment : Fragment() {
             binding.apply {
                 isConnected?.let {
                     if (!isConnected) {
-                        showToast("No internet connection")
-                        cityNameTil.isEnabled = false
+                        homeContainer.visibility = View.GONE
+                        homeNoInternetContainer.visibility = View.VISIBLE
                     } else {
-                        cityNameTil.isEnabled = true
-                        showToast("Connected")
+                        homeContainer.visibility = View.VISIBLE
+                        homeNoInternetContainer.visibility = View.GONE
                     }
                 }
             }
         }
         homeViewModel.apply {
             weatherInfo.observe(viewLifecycleOwner) { weatherInfo ->
-                if (weatherInfo != null) {
+                if (weatherInfo.cityName.isNotBlank()) {
                     weatherInfoArgs = weatherInfo
                     binding.apply {
-                        detailsBtn.isEnabled = true
+                        homeDetailsContainer.visibility = View.VISIBLE
                         currentCityNameTxt.text = weatherInfo.cityName
                     }
                 }
@@ -66,6 +66,7 @@ class HomeFragment : Fragment() {
             cityInfoError.observe(viewLifecycleOwner) { message ->
                 showToast(message)
                 binding.cityNameTil.requestFocus()
+                binding.homeContainer.visibility = View.VISIBLE
             }
             cityInfoLoading.observe(viewLifecycleOwner) { isLoading ->
                 isShowLoading(isLoading)
@@ -76,12 +77,15 @@ class HomeFragment : Fragment() {
     private fun isShowLoading(loading: Boolean) {
         when(loading) {
             true -> {
-                binding.homeContainer.visibility = View.GONE
-                binding.homeProgress.visibility = View.VISIBLE
+                binding.apply {
+                    progressAnimation.visibility = View.VISIBLE
+                    homeContainer.visibility = View.GONE
+                }
             }
             else -> {
-                binding.homeContainer.visibility = View.VISIBLE
-                binding.homeProgress.visibility = View.GONE
+                binding.apply {
+                    progressAnimation.visibility = View.GONE
+                }
             }
         }
     }
@@ -113,6 +117,12 @@ class HomeFragment : Fragment() {
                     goToDetailsScreen()
                 }
             }
+            searchOtherBtn.setOnClickListener {
+                homeDetailsContainer.visibility = View.GONE
+                homeContainer.visibility = View.VISIBLE
+                cityNameTiet.text?.clear()
+                cityNameTiet.requestFocus()
+            }
         }
     }
 
@@ -124,10 +134,7 @@ class HomeFragment : Fragment() {
 
     private fun clearData() {
         homeViewModel.clearCityInfos()
-        binding.apply {
-            detailsBtn.isEnabled = false
-            currentCityNameTxt.text = ""
-        }
+        binding.currentCityNameTxt.text = ""
     }
 
     private fun isValidCityName(): Boolean =
@@ -135,8 +142,8 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        activity?.window?.statusBarColor = resources.getColor(R.color.white)
         binding.apply {
-            detailsBtn.isEnabled = false
             cityNameTil.requestFocus()
         }
     }

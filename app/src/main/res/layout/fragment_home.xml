@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.home.HomeFragment">
 
-    <ProgressBar
-        android:id="@+id/homeProgress"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/progressAnimation"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/weather"
+        app:lottie_loop="true"
+        tools:visibility="visible"/>
 
     <LinearLayout
         android:id="@+id/homeContainer"
@@ -19,7 +22,8 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,23 +56,63 @@
             android:layout_marginTop="48dp"
             android:text="@string/search_button" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/detailsBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:text="@string/details_button" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/homeDetailsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <TextView
             android:id="@+id/currentCityNameTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="32sp"
             android:textAlignment="center"
-            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
             android:textStyle="bold|italic"
             tools:text="City Name" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/detailsBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="@string/details_button" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/searchOtherBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="@string/other_city_button" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/homeNoInternetContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/blue_sky"
+        android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/noInternetAnimation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/no_internet"
+            app:lottie_loop="true"/>
 
     </LinearLayout>
 
