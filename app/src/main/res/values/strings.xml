@@ -9,4 +9,5 @@
     <string name="details_button">See Weather Details</string>
     <string name="humidity_text">Humidity: %d%%</string>
     <string name="temperature_text">%d°C</string>
+    <string name="other_city_button">Search other</string>
 </resources>
