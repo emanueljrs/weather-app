@@ -29,6 +29,10 @@ class ConnectivityManager @Inject constructor(
         val capabilities =
             connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
 
+        if (connectivityManager.activeNetwork == null) {
+            _isConnected.value = false
+        }
+
         connectivityManager.registerDefaultNetworkCallback(object :
             ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
