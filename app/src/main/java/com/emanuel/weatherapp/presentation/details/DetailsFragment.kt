@@ -44,6 +44,11 @@ class DetailsFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.statusBarColor = resources.getColor(R.color.blue_sky)
+    }
+
     private fun getWeatherIcon(iconCode: String): Int {
         return when(iconCode) {
             "01d" -> R.drawable.weather_01d
