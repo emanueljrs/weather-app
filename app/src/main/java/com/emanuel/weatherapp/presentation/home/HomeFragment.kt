@@ -12,12 +12,13 @@ import androidx.navigation.fragment.findNavController
 import com.emanuel.weatherapp.R
 import com.emanuel.weatherapp.databinding.FragmentHomeBinding
 import com.emanuel.weatherapp.domain.model.WeatherInfo
+import com.emanuel.weatherapp.presentation.utils.FragmentExt.hideKeyboard
+import com.emanuel.weatherapp.presentation.utils.FragmentExt.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private val TAG: String = "HomeFragment"
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -40,20 +41,22 @@ class HomeFragment : Fragment() {
     }
 
     private fun observers() {
-        homeViewModel.isConnected.observe(viewLifecycleOwner) { isConnected ->
-            binding.apply {
-                isConnected?.let {
-                    if (!isConnected) {
-                        homeContainer.visibility = View.GONE
-                        homeNoInternetContainer.visibility = View.VISIBLE
-                    } else {
-                        homeContainer.visibility = View.VISIBLE
-                        homeNoInternetContainer.visibility = View.GONE
+        homeViewModel.apply {
+            isConnected.observe(viewLifecycleOwner) { isConnected ->
+                binding.apply {
+                    isConnected?.let {
+                        if (!isConnected) {
+                            homeContainer.visibility = View.GONE
+                            homeNoInternetContainer.visibility = View.VISIBLE
+                            changeStatusBarColor(change = true)
+                        } else {
+                            homeContainer.visibility = View.VISIBLE
+                            homeNoInternetContainer.visibility = View.GONE
+                            changeStatusBarColor(change = false)
+                        }
                     }
                 }
             }
-        }
-        homeViewModel.apply {
             weatherInfo.observe(viewLifecycleOwner) { weatherInfo ->
                 if (weatherInfo.cityName.isNotBlank()) {
                     weatherInfoArgs = weatherInfo
@@ -72,6 +75,15 @@ class HomeFragment : Fragment() {
                 isShowLoading(isLoading)
             }
         }
+    }
+
+    private fun changeStatusBarColor(change: Boolean) {
+        val color = if (change) {
+            resources.getColor(R.color.blue_sky)
+        } else {
+            resources.getColor(R.color.white)
+        }
+        activity?.window?.statusBarColor = color
     }
 
     private fun isShowLoading(loading: Boolean) {
@@ -110,6 +122,7 @@ class HomeFragment : Fragment() {
                     homeViewModel.getLatLonCity(cityNameTiet.text.toString())
                     cityNameTiet.text?.clear()
                     cityNameTiet.requestFocus()
+                    hideKeyboard(it)
                 }
             }
             detailsBtn.setOnClickListener {
@@ -121,7 +134,7 @@ class HomeFragment : Fragment() {
                 homeDetailsContainer.visibility = View.GONE
                 homeContainer.visibility = View.VISIBLE
                 cityNameTiet.text?.clear()
-                cityNameTiet.requestFocus()
+                showKeyboard(cityNameTiet)
             }
         }
     }
@@ -142,9 +155,9 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        activity?.window?.statusBarColor = resources.getColor(R.color.white)
+        changeStatusBarColor(change = false)
         binding.apply {
-            cityNameTil.requestFocus()
+            showKeyboard(cityNameTiet)
         }
     }
 
