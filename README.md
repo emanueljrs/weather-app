@@ -2,6 +2,7 @@
 
 ## Finalidade do Projeto
 
+Realizar busca pelo o nome da cidade para obter as informações do clima.
 Projeto com a finlidade de colocar em prática assuntos que venho estudando e validar os conceitos
 na prática. É uma forma de avaliar a minha evolução técnica.
 
