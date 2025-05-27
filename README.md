@@ -1,4 +1,4 @@
-# Nome do Projeto
+# Weather App
 
 ## Finalidade do Projeto
 
